@@ -8,4 +8,5 @@ def root():
 
 @app.get("/tarefas")
 def tarefas():
- return {"tarefas urgentes": ["tarefa 1", "tarefa 2", "tarefa 3"], "tarefas normais": ["tarefa 4", "tarefa 5", "tarefa 6"]}
+ return [{"id": 1, "titulo": "estudo", "concluida": False}, {"id": 2, "titulo": "trabalho", "concluida": True}, {"id": 3, "titulo": "academia", "concluida": True},
+        {"id": 4, "titulo": "compras", "concluida": False}, {"id": 5, "titulo": "limpeza", "concluida": True}, {"id": 6, "titulo": "cozinhar", "concluida": True}, {"id": 7, "titulo": "estudar", "concluida": False}, {"id": 8, "titulo": "trabalho", "concluida": True}, {"id": 9, "titulo": "academia", "concluida": True},]
