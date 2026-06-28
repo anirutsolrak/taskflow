@@ -1,16 +1,13 @@
 from fastapi import FastAPI
 from app.db.supabase import supabase
-app = FastAPI()
+from app.routers.tasks import router as task_router
 
+app = FastAPI()
+app.include_router(task_router, prefix ="/tarefas", tags=["Tarefas"])
 @app.get("/")
 def root():
- return {"message": "Api Funcionando correctamente"}
-
-@app.get("/tarefas")
-def tarefas():
- return [{"id": 1, "titulo": "estudo", "concluida": False}, {"id": 2, "titulo": "trabalho", "concluida": True}, {"id": 3, "titulo": "academia", "concluida": True},
-        {"id": 4, "titulo": "compras", "concluida": False}, {"id": 5, "titulo": "limpeza", "concluida": True}, {"id": 6, "titulo": "cozinhar", "concluida": True}, {"id": 7, "titulo": "estudar", "concluida": False}, {"id": 8, "titulo": "trabalho", "concluida": True}, {"id": 9, "titulo": "academia", "concluida": True},]
+ return {"message": "Api Funcionando corretamente"}
 
 @app.get("/status")
 def status():
- return {"status": "ok", "url": str(supabase.supabase_url)}
+ return {"status": "Ok", "url": str(supabase.supabase_url)}
