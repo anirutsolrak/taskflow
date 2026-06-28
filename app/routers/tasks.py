@@ -30,4 +30,4 @@ def deletar_tarefa(tarefa_id: int):
     response = supabase.table("tarefas").delete().eq("id", tarefa_id).execute()
     if not response.data:
         raise HTTPException(status_code=404, detail="Tarefa não encontrada")
-    return {"message": "Tarefa deletada com sucesso"}
+    return {"Mensagem": "Tarefa deletada com sucesso"}
