@@ -19,7 +19,7 @@ def criar_tarefa(tarefa: CriarTarefa , usuario_atual = Depends(obter_usuario_atu
 
 #listar tarefa por id
 @router.put("/{tarefa_id}")
-def atualizar_tarefa(tarefa_id: int, tarefa: AtualizarTarefa, usuario_atual = Depends(obter_usuario_atual)):
+def atualizar_tarefa(tarefa_id: str, tarefa: AtualizarTarefa, usuario_atual = Depends(obter_usuario_atual)):
     dados_atualizados = {campo: valor for campo, valor in tarefa.model_dump().items() if valor is not None}
     response = supabase.table("tarefas").update(dados_atualizados).eq("id", tarefa_id).execute()
     if not response.data:
@@ -28,7 +28,7 @@ def atualizar_tarefa(tarefa_id: int, tarefa: AtualizarTarefa, usuario_atual = De
 
 #deletar tarefa por id
 @router.delete("/{tarefa_id}")
-def deletar_tarefa(tarefa_id: int, usuario_atual = Depends(obter_usuario_atual)):
+def deletar_tarefa(tarefa_id: str, usuario_atual = Depends(obter_usuario_atual)):
     response = supabase.table("tarefas").delete().eq("id", tarefa_id).execute()
     if not response.data:
         raise HTTPException(status_code=404, detail="Tarefa não encontrada")

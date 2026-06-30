@@ -2,13 +2,63 @@ import { Tarefa } from "@/types"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
+function getToken(): string | null {
+  if (typeof window === "undefined") return null
+  return localStorage.getItem("access_token")
+}
+
 export async function buscarTarefas(): Promise<Tarefa[]> {
-  const resposta = await fetch(`${API_URL}/tarefas/`)
-  const dados = await resposta.json()
+  const token = getToken()
+  const resposta = await fetch(`${API_URL}/tarefas/`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
   if (!resposta.ok) {
     throw new Error("Erro ao buscar tarefas")
   }
-  return dados
+  return resposta.json()
+}
+
+export async function criarTarefa(titulo: string): Promise<Tarefa> {
+  const token = getToken()
+  const resposta = await fetch(`${API_URL}/tarefas/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ titulo }),
+  })
+  if (!resposta.ok) {
+    throw new Error("Erro ao criar tarefa")
+  }
+  return resposta.json()
+}
+
+export async function atualizarTarefa(id: string, concluida: boolean): Promise<Tarefa> {
+  const token = getToken()
+  const resposta = await fetch(`${API_URL}/tarefas/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ concluida }),
+  })
+  if (!resposta.ok) {
+    throw new Error("Erro ao atualizar tarefa")
+  }
+  return resposta.json()
+}
+
+export async function deletarTarefa(id: string): Promise<void> {
+  const token = getToken()
+  const resposta = await fetch(`${API_URL}/tarefas/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!resposta.ok) {
+    throw new Error("Erro ao deletar tarefa")
+  }
 }
 
 export async function registrar(email: string, senha: string) {
